@@ -24,3 +24,23 @@ def detect_face(data, context):
 
     faces=vision_client.face_detection(image=blob_source,max_results=4).face_annotations
     print(faces)
+
+    if len(faces)>0:
+         uploadToGCS(faces,file_name)
+
+def uploadToGCS(faces,file_name):
+
+     _, temp_local_filename=tempfile.mkstemp()
+
+     f=open(temp_local_filename,"w")
+     f.write(str(faces))
+     f.close()
+
+     face_bucket=storage_client.bucket("func-4-out")
+     uploadfilename=file_name+"-res.txt"
+     new_blob=face_bucket.blob(uploadfilename)
+     new_blob.upload_from_filename(temp_local_filename)
+     print(f"Face Response uploaded to: gs://{face_bucket}/{uploadfilename}")
+
+     #delete the temporary file
+     os.remove(temp_local_filename)
