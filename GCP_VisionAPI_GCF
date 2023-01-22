@@ -19,8 +19,8 @@ def detect_face(data, context):
     print(f"Bucket : {bucket_name}.")
 
     blob=storage_client.bucket(bucket_name).get_blob(file_name)
-    blob_url=f"gs://{bucket_name}/{file_name}"
-    blob_source=vision.Image(source=vision.ImageSource(gcs_image_url=blob_url))
+    blob_uri=f"gs://{bucket_name}/{file_name}"
+    blob_source=vision.Image(source=vision.ImageSource(gcs_image_uri=blob_uri))
 
     faces=vision_client.face_detection(image=blob_source,max_results=4).face_annotations
     print(faces)
