@@ -12,7 +12,7 @@ def detect_face(data, context):
     file_data = data
     file_name=file_data["name"]
     bucket_name=file_data["bucket"]
-
+  
 
 
     print(f"Processing file: {file_name}.")
